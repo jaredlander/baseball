@@ -13,19 +13,21 @@ worldSeries <- worldSeries[, c("Year", "Winning team", "Winning league", "Losing
 # give better names
 names(worldSeries) <- c("Year", "WinningTeam", "WinningLeague", "LosingTeam", "LosingLeague")
 
-# load president data
-presidents <- read.table("data/presidents.csv", header=TRUE, sep=",", stringsAsFactors=FALSE)
-
 lengthen.pres <- function(vect)
 {
     data.frame(President=vect$President, Party=vect$Party, Year=vect$Start:(vect$End - 1))
 }
+
+# load president data
+presidents <- read.table("data/presidents.csv", header=TRUE, sep=",", stringsAsFactors=FALSE)
 
 # make a year for each president
 presidents <- ddply(presidents, "President", lengthen.pres)
 # remove years when world series not played
 presidents <- presidents[which(!presidents$Year %in% c(1901, 1902, 1904, 1994)), ]
 presidents <- presidents[order(presidents$Year), ]
+# put Kennedy back in for 1963 since he was in office in October
+presidents$President[which(presidents$Year == 1963)] <- "John Fitzgerald Kennedy"
 
 # join both together
 baseball <- join(worldSeries, presidents, by="Year")
