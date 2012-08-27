@@ -1,8 +1,8 @@
 # some plots
 require(ggplot2)
 
-yanks <- ggplot(baseball[which(baseball$Year >= 1960), ], aes(x=Year, y=Yankees)) + opts(axis.text.x=theme_text(angle=90))
-yanks + geom_point(aes(colour=Party))
+yanks <- ggplot(baseball[which(baseball$Year >= 1960), ], aes(x=Year, y=Yankees)) + opts(axis.text.x=theme_text(angle=90)) + opts(title="Yankees World Series Wins") + labs(x="Yankee Win") + scale_x_discrete(breaks=seq(from=1960, to=2011, by=2)) + scale_y_continuous(breaks=0:1, labels=c("Loss", "Win"))
+yanks + geom_point(aes(colour=Party)) + scale_colour_discrete("President")
 
 yanksAll <- ggplot(baseball, aes(x=Year, y=Yankees)) + opts(axis.text.x=theme_text(angle=90))
 yanksAll + geom_point(aes(colour=Party))
