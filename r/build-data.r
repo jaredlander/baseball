@@ -28,6 +28,9 @@ presidents <- presidents[which(!presidents$Year %in% c(1901, 1902, 1904, 1994)),
 presidents <- presidents[order(presidents$Year), ]
 # put Kennedy back in for 1963 since he was in office in October
 presidents$President[which(presidents$Year == 1963)] <- "John Fitzgerald Kennedy"
+# put another row in for Barack Obama
+presidents <- rbind(presidents, data.frame(President="Barack Hussein Obama", Party="Democrat", Year=2011))
+
 
 # join both together
 baseball <- join(worldSeries, presidents, by="Year")
