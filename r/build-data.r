@@ -18,7 +18,7 @@ presidents <- read.table("data/presidents.csv", header=TRUE, sep=",", stringsAsF
 
 lengthen.pres <- function(vect)
 {
-    data.frame(President=vect$President, Party=vect$Party, Year=vect$Start:vect$End)
+    data.frame(President=vect$President, Party=vect$Party, Year=vect$Start:(vect$End - 1))
 }
 
 # make a year for each president
@@ -31,3 +31,5 @@ presidents <- presidents[order(presidents$Year), ]
 baseball <- join(worldSeries, presidents, by="Year")
 baseball$Yankees <- ifelse(baseball$WinningTeam == "New York Yankees", 1, 0)
 baseball$American <- ifelse(baseball$WinningLeague == "AL", 1, 0)
+# make party a factor
+baseball$Party <- factor(baseball$Party, levels=c("Republican", "Democrat"))
