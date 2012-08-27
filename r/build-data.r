@@ -1,7 +1,6 @@
 require(RCurl)
 require(XML)
 require(plyr)
-require(ggplot2)
 
 # get world series info from wikipedia
 dataPage <- "http://en.wikipedia.org/wiki/List_of_World_Series_champions"
