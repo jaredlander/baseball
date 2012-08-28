@@ -1,4 +1,3 @@
-require(RCurl)
 require(XML)
 require(plyr)
 
@@ -20,17 +19,16 @@ lengthen.pres <- function(vect)
 
 # load president data
 presidents <- read.table("data/presidents.csv", header=TRUE, sep=",", stringsAsFactors=FALSE)
-
 # make a year for each president
 presidents <- ddply(presidents, "President", lengthen.pres)
 # remove years when world series not played
 presidents <- presidents[which(!presidents$Year %in% c(1901, 1902, 1904, 1994)), ]
 presidents <- presidents[order(presidents$Year), ]
+presidents$President <- as.character(presidents$President)
 # put Kennedy back in for 1963 since he was in office in October
 presidents$President[which(presidents$Year == 1963)] <- "John Fitzgerald Kennedy"
 # put another row in for Barack Obama
 presidents <- rbind(presidents, data.frame(President="Barack Hussein Obama", Party="Democrat", Year=2011))
-
 
 # join both together
 baseball <- join(worldSeries, presidents, by="Year")
@@ -38,3 +36,4 @@ baseball$Yankees <- ifelse(baseball$WinningTeam == "New York Yankees", 1, 0)
 baseball$American <- ifelse(baseball$WinningLeague == "AL", 1, 0)
 # make party a factor
 baseball$Party <- factor(baseball$Party, levels=c("Republican", "Democrat"))
+baseball$Year1960 <- ifelse(baseball$Year >= 1960, "Post", "Pre")
